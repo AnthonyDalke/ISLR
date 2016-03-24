@@ -13,4 +13,13 @@
 #2.c.) n = 52, p = % US market change, % British market change, 
       #% German market change; regression; prediction
 
-#3.a.)
+#3.a.) Visual exercise
+#3.b.) Bayes (irreducible) error remains 1 for all flexibility levels, because its
+      #irreducible nature prevents it from changing; training errors fall as
+      #flexibility increases since the more flexible models become, the more they
+      #"meld" to fit training data; in contrast, test errors initially decrease but
+      #then increase because less flexible (linear) models fail to accurately fit 
+      #new data, yet highly flexibile models tend to over-fit on training data,
+      #rendering them incapable of accurately fitting new test data; bias decreases
+      #with flexibility because more flexible models more closely fit with training
+      #data; in contrast, variance increases with flexibility for the same reason
