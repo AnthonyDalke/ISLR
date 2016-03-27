@@ -23,3 +23,22 @@
       #rendering them incapable of accurately fitting new test data; bias decreases
       #with flexibility because more flexible models more closely fit with training
       #data; in contrast, variance increases with flexibility for the same reason
+
+#4.Skipping due to general nature
+
+#5.) More flexible models can better capture the uniqueness of non-linear
+    #data, reducing training error, but they run the risk of overfitting
+
+#6.) Parametric approaches yield more flexible models by considering more variables
+    #(or parameters).  This can come in handy when building multiple regression
+    #models or classification models with multiple predictor variables.  However,
+    #this creates risks similar to those of flexible models - namely, overfitting.
+    #(FROM ANSWER KEY: parametric models do not require as much training data as
+    #non-parametric.)
+
+#7.) a.) 1 - 3, 2 - 2, 3 - 4, 4 - 3, 5 - 0, 6 - 3 (WRONG)
+    #b.) Green, since observation 5 has the lowest distance from {0, 0, 0}
+    #c.) Red, since the three closest observations have {Red, Green, Red}
+    #d.) As the size of k increases, the decision boundary becomes more linear.
+    #Therefore, for a non-linear decision boundary, a smaller k would prove more
+    #flexible and accurate.
