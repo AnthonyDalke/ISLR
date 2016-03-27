@@ -42,3 +42,25 @@
     #d.) As the size of k increases, the decision boundary becomes more linear.
     #Therefore, for a non-linear decision boundary, a smaller k would prove more
     #flexible and accurate.
+
+install.packages("ISLR")
+library("ISLR")
+
+#8.) a.)
+college = College
+#b.)
+fix(college)
+#c.)
+summary(college)
+pairs(college[,1:10])
+plot(college$Outstate ~ college$Private)
+elite = rep("No", nrow(college))
+elite[college$Top10perc > 50] = " Yes"
+elite = as.factor(elite)
+college = data.frame(college, elite)
+summary(college$elite)
+plot(college$Outstate ~ college$elite)
+hist(college$Room.Board, breaks = par(mfrow = c(2, 2)))
+
+#9.) a.)
+auto = Auto
