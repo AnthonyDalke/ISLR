@@ -71,3 +71,102 @@ summary(auto_tran_reg)
 summary(auto_mult_reg)
 # Taking the sqrt of weight makes it less statistically significant as a predictor.  Squaring acceleration
 # actually makes it statistically significant. And taking the log of horsepower makes it stat. sig.
+
+# 10.)
+carseats = Carseats
+# a.) 
+fit1 = lm(Sales ~ Price + Urban + US, data = carseats)
+# b.)
+summary(fit1)
+# For every dollar increase in price, sales slightly decrease.  If someone lives in an urban area, they
+# become slightly less likely to buy a seat.  And if they live in the U.S. they become more likely to buy.
+# c.)
+y-hat = 13.043469 - (0.054459 * Price) - (0.021916 * Urban Y/N) + (1.200573 * US Y/N)
+# d.)
+# The predictors with statistically significant p-values: Price and U.S.
+# e.)
+fit2 = lm(Sales ~ Price + US, data = carseats)
+# f.)
+summary(fit2)
+# The first model fits the data poorly, with a statistically significant f-statistic but low adjusted R^2.
+# The second model features an improved f-statistic but still a stubbornly low adjusted R^2.
+# g.)
+confint(fit2)
+# h.)
+plot(fit2)
+# Yes, observations with residuals greater than five appear.
+
+# 11.)
+set . seed (1)
+x=rnorm(100)
+y=2*x+rnorm(100)
+# a.)
+fit1 = lm(y ~ x + 0)
+summary(fit1)
+fit1[1] #coefficient est.
+# Std. error: 0.1106, t-stat: 18.63, p-value: tiny, suggesting a large, statistically significant effect
+# b.)
+fit2 = lm(x ~ y + 0)
+summary(fit2)
+fit2[1] #coefficient est.
+# Std. error: 0.02027, t-stat: 18.63, p-value: tiny, suggesting a large, statistically significant effect
+# c.) Same t- and p-values but different coefficient estimates and standard errors, since they reflect
+# similar "source" data
+# d.) Skipped
+# e.) Thanks to the transverse property of multiplication, the products of both equations equal.
+# f.) 
+fit3 = lm(y ~ x + x^2)
+fit4 = lm(x ~ y + y^2)
+summary(fit3)
+summary(fit4)
+# Both new models have t-statistics of 18.423
+
+# 12.) 
+# a.) When the two variables have equivalent sums of squares
+# b.) 
+x = rnorm(100)
+y = 2 * x * rnorm(100)
+summary(lm(y ~ x + 0))
+summary(lm(x ~ y + 0))
+# c.)
+x = rnorm(100) + 10
+y = rnorm(100) - 10
+summary(lm(y ~ x + 0))
+summary(lm(x ~ y + 0))
+
+# 13.)
+set.seed(1)
+# a.)
+x = rnorm(100)
+# b.)
+eps = rnorm(100, sd = 0.25)
+# c.)
+y = -1 + (0.5 * x) + eps
+# length = 100, intercept = -1, slope = 0.5
+# d.)
+plot(y ~ x)
+# Positive linear relationship
+# e.)
+fit = lm(y ~ x)
+summary(fit)
+# The intercept and slope comes very close to the "manual" model; good overall fit.
+# f.)
+abline(fit)
+# g.)
+fit2 = lm(y ~ x + I(x^2))
+summary(fit2)
+# The adjusted R^2 slightly increased, but the f-statistic decreased, and the new predictor variable lacks
+# statistical significance.
+# h.)
+x = rnorm(100, sd = 0.1)
+fit3 = lm(y ~ x)
+summary(fit3)
+# Adjusted R^2, f-statistic, and overall statistical significance suffer.
+# i.)
+x = rnorm(100, sd = 1.5)
+fit4 = lm(y ~ x)
+summary(fit4)
+# Adjusted R^2, f-statistic, and overall statistical significance suffer.
+# j.) Skipped due to redundancy
+
+# Skipped questions 14 and 15 to move to next chapter.
