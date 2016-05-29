@@ -29,3 +29,10 @@ fit2_pred[fit2_probs > 0.5] = "Up"
 fit2_truth = weekly[weekly$Year > 2008,9]
 fit2_confusion = table(fit2_pred, fit2_truth)
 (fit2_confusion[[1]] + fit2_confusion [[4]]) / sum(fit2_confusion)
+fit2_confusion
+
+# e.)
+install.packages("MASS")
+library("MASS")
+fit3 = lda(Direction ~ Lag2, data = fit2_data)
+plot(fit3)
