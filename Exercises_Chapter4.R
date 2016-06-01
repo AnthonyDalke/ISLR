@@ -36,3 +36,31 @@ install.packages("MASS")
 library("MASS")
 fit3 = lda(Direction ~ Lag2, data = fit2_data)
 plot(fit3)
+fit3_pred = predict(fit3, fit2_test, type = "response")[[1]]
+fit3_truth = weekly[weekly$Year > 2008,9]
+fit3_confusion = table(fit3_pred, fit3_truth)
+(fit3_confusion[[1]] + fit3_confusion [[4]]) / sum(fit3_confusion)
+fit3_confusion
+
+# f.)
+install.packages("MASS")
+library("MASS")
+fit4 = qda(Direction ~ Lag2, data = fit2_data)
+fit4_pred = predict(fit4, fit2_test, type = "response")[[1]]
+fit4_truth = weekly[weekly$Year > 2008,9]
+fit4_confusion = table(fit4_pred, fit4_truth)
+fit4_confusion
+mean(fit4_pred == fit4_truth)
+
+# g.)
+install.packages("class")
+library("class")
+knn_train = as.matrix(fit2_data[,3])
+knn_test = as.matrix(fit2_test[,3])
+knn_direction = fit2_data$Direction
+set.seed(1)
+fit5 = knn(knn_train, knn_test, knn_direction)
+table(fit5, fit4_truth)
+mean(fit5 == fit4_truth)
+
+# h.) Logistic regression and LDA both produce accuracy rates of 62.5%.
