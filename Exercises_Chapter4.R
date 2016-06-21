@@ -64,3 +64,12 @@ table(fit5, fit4_truth)
 mean(fit5 == fit4_truth)
 
 # h.) Logistic regression and LDA both produce accuracy rates of 62.5%.
+
+#11.)
+# a.) 
+Auto = Auto
+mpg_data = data.frame(Auto, mpg01 = 1)
+mpg_data$mpg01[mpg_data$mpg < median(mpg_data$mpg)] = 0
+# b.) Horsepower, weight, and displacement have negative relationships with mpg01, while no other variables
+# appear to have a reliable relationship with it.
+plot(mpg_data)
