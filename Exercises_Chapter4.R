@@ -70,6 +70,46 @@ mean(fit5 == fit4_truth)
 Auto = Auto
 mpg_data = data.frame(Auto, mpg01 = 1)
 mpg_data$mpg01[mpg_data$mpg < median(mpg_data$mpg)] = 0
+
 # b.) Horsepower, weight, and displacement have negative relationships with mpg01, while no other variables
 # appear to have a reliable relationship with it.
 plot(mpg_data)
+
+# c.)
+training_rows = sample(length(mpg_data$mpg01)*.667)
+mpg_training = mpg_data[training_rows,]
+mpg_test = mpg_data[-training_rows,]
+
+# d.)
+fit_LDA = lda(mpg01 ~ horsepower + weight + displacement, data = mpg_test)
+pred_LDA = predict(fit_LDA, mpg_test, type = "response")[[1]]
+truth_LDA = mpg_test$mpg01
+confusion_LDA = table(pred_LDA, truth_LDA)
+1-((confusion_LDA[[1]] + confusion_LDA [[4]]) / sum(confusion_LDA))
+# Error rate = 9.92%
+
+# e.)
+fit_QDA = qda(mpg01 ~ horsepower + weight + displacement, data = mpg_test)
+pred_QDA = predict(fit_QDA, mpg_test, type = "response")[[1]]
+truth_QDA = mpg_test$mpg01
+confusion_QDA = table(pred_QDA, truth_QDA)
+1-((confusion_QDA[[1]] + confusion_QDA [[4]]) / sum(confusion_QDA))
+# Error rate = 10.69%
+
+# f.)
+fit_logistic = glm(mpg01 ~ horsepower + weight + displacement, data = mpg_test, family = binomial)
+pred_logistic = predict(fit_logistic, mpg_test, type = "response")[[1]]
+truth_logistic = mpg_test$mpg01
+confusion_logistic = table(pred_QDA, truth_logistic)
+1-((confusion_logistic[[1]] + confusion_logistic [[4]]) / sum(confusion_logistic))
+# Error rate = 10.69%
+
+# g.)
+set.seed(1)
+knn_training = mpg_training[,3:5]
+knn_test = mpg_test[,3:5]
+knn_direction = mpg_training$mpg01
+fit_knn = knn(knn_training, knn_test, knn_direction, k = 5)
+confusion_knn = table(fit_knn, truth_logistic)
+1-((confusion_knn[[1]] + confusion_knn [[4]]) / sum(confusion_knn))
+# Error rate = 19.08% with k = 5
