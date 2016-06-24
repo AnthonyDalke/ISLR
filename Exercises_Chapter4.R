@@ -100,7 +100,7 @@ confusion_QDA = table(pred_QDA, truth_QDA)
 fit_logistic = glm(mpg01 ~ horsepower + weight + displacement, data = mpg_test, family = binomial)
 pred_logistic = predict(fit_logistic, mpg_test, type = "response")[[1]]
 truth_logistic = mpg_test$mpg01
-confusion_logistic = table(pred_QDA, truth_logistic)
+confusion_logistic = table(pred_logistic, truth_logistic)
 1-((confusion_logistic[[1]] + confusion_logistic [[4]]) / sum(confusion_logistic))
 # Error rate = 10.69%
 
@@ -113,3 +113,79 @@ fit_knn = knn(knn_training, knn_test, knn_direction, k = 5)
 confusion_knn = table(fit_knn, truth_logistic)
 1-((confusion_knn[[1]] + confusion_knn [[4]]) / sum(confusion_knn))
 # Error rate = 19.08% with k = 5
+
+# 12.)
+
+# a.)
+Power = function(){
+  print(2^3)
+}
+Power()
+
+# b.)
+Power2 = function(x, y){
+  print(x^y)
+}
+Power2(3, 8)
+
+# c.)
+Power2(10, 3)
+Power2(8, 17)
+Power2(131, 3)
+
+# d.)
+Power3 = function(x, y){
+  result = x^y
+  return(result)
+}
+Power3(2, 3)
+
+# e.)
+plot(x = 1:10, y = Power3(1:10, 2), xlab = "Integer", ylab = "Integer Squared", main = "Question 12e")
+plot(x = 1:10, y = Power3(1:10, 2), log = "x", xlab = "Integer", ylab = "Integer Squared", 
+     main = "Question 12e")
+plot(x = 1:10, y = Power3(1:10, 2), log = "y", xlab = "Integer", ylab = "Integer Squared", 
+     main = "Question 12e")
+plot(x = 1:10, y = Power3(1:10, 2), log = "xy", xlab = "Integer", ylab = "Integer Squared", 
+     main = "Question 12e")
+
+# f.)
+PlotPower = function(x, y){
+  plot(x = x, y = x^y, xlab = "x", ylab = "y")
+}
+PlotPower(1:10, 3)
+
+# 13.)
+Boston = Boston
+str(Boston)
+Boston_crime = data.frame(Boston, Crime = 1)
+Boston_crime$Crime[Boston_crime$crim < median(Boston_crime$crim)] = 0
+summary(lm(crim ~ ., data = Boston_crime))
+# zn, nox, dis, rad, black, medv show statistical significance
+
+training_rows = sample(length(Boston_crime$Crime)*.75)
+Boston_training = Boston_crime[training_rows,]
+Boston_test = Boston_crime[-training_rows,]
+Boston_glm = glm(Crime ~ zn + nox + dis + rad + black + medv, data = Boston_training, family = binomial)
+Boston_lda = lda(Crime ~ zn + nox + dis + rad + black + medv, data = Boston_training)
+
+pred_glm = predict(Boston_glm, Boston_test, type = "response")
+pred_glm2 = rep(0, length(pred_glm))
+pred_glm2[pred_glm > 0.5] = 1
+confusion_glm = table(pred_glm2, Boston_test$Crime)
+1-(confusion_glm [[2]] / sum(confusion_glm))
+# 11.81% error rate
+
+pred_lda = predict(Boston_lda, Boston_test, type = "response")[[1]]
+confusion_lda = table(pred_lda, Boston_test$Crime)
+1-((confusion_lda[[1]] + confusion_lda [[4]]) / sum(confusion_lda))
+# LDA produces an error rate of only 7.87%
+
+set.seed(1)
+knn_training = Boston_training[,c(2, 5, 8, 9, 12, 14)]
+knn_test = Boston_test[,c(2, 5, 8, 9, 12, 14)]
+knn_direction = Boston_training$Crime
+fit_knn = knn(knn_training, knn_test, knn_direction, k = 6)
+confusion_knn = table(fit_knn, Boston_test$Crime)
+1-((confusion_knn[[1]] + confusion_knn [[4]]) / sum(confusion_knn))
+# kNN produces the same error rate, 7.87%, as LDA with k = 6
