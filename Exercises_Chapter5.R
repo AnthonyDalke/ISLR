@@ -13,5 +13,20 @@ fit_log_pred[which(fit_log_pred <= 0.5)] = "No"
 fit_log_table = table(fit_log_pred, Default$default[-training])
 (fit_log_table[[2]] + fit_log_table[[3]]) / sum(fit_log_table)
 # Error of 2.84%
+# c.)
 # Repeated above code with new samples three times; trial 1: 2.88% error, trial 2: 2.72%, trial 3: 2.50%
 # Results appear similar, which speaks to stability of model
+# d.)
+Default$student = gsub("No", 0, Default$student)
+Default$student = gsub("Yes", 1, Default$student)
+Default$student = as.numeric(Default$student)
+fit_log2_train = glm(default ~ income + balance + student, data = Default, subset = training, 
+                     family = "binomial")
+fit_log2_pred = predict(fit_log2_train, Default[-training,])
+fit_log2_pred[which(fit_log2_pred > 0.5)] = "Yes"
+fit_log2_pred[which(fit_log2_pred <= 0.5)] = "No"
+fit_log2_table = table(fit_log2_pred, Default$default[-training])
+(fit_log2_table[[2]] + fit_log2_table[[3]]) / sum(fit_log2_table)
+# No, the student dummy variable did not significantly reduce the test error rate.
+
+# 6.)
