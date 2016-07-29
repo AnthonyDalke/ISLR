@@ -30,3 +30,16 @@ fit_log2_table = table(fit_log2_pred, Default$default[-training])
 # No, the student dummy variable did not significantly reduce the test error rate.
 
 # 6.)
+set.seed(1)
+# a.) summary(fit_log)
+# income std. error = 0.000004985; balance std. error = 0.0002274
+# b.) 
+boot.fn = function(data, training_rows){
+  boot.model = glm(default ~ income + balance, data = data, subset = training_rows, family = "binomial")
+  boot.model$coefficients
+}
+# c.)
+install.packages("boot")
+library("boot")
+boot(Default, boot.fn, 50)
+# d.) The std. errors came very close: 0.000004653632 and 0.0002043368, respectively.
