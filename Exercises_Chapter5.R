@@ -43,3 +43,35 @@ install.packages("boot")
 library("boot")
 boot(Default, boot.fn, 50)
 # d.) The std. errors came very close: 0.000004653632 and 0.0002043368, respectively.
+
+# 7.)
+weekly = Weekly
+# a.)
+log1 = glm(Direction ~ Lag1 + Lag2, data = weekly, family = "binomial")
+# b.)
+log2 = glm(Direction ~ Lag1 + Lag2, data = weekly[2:nrow(weekly),], family = "binomial")
+# c.)
+predict.glm(log2, weekly[1,], type = "response")
+weekly[1, 9]
+# The model predicted 0.57, or "Up".  The actual value is "Down", so the prediction proved incorrect. #
+# d.)
+for(i in 1:nrow(weekly)){
+  log3 = glm(Direction ~ Lag1 + Lag2, data = weekly[-i, ], family = "binomial")
+  log3_pred = predict.glm(log3, weekly[i,], type = "response")
+  if (log3_pred > 0.5)
+    log3_pred = "Up" else
+      log3_pred = "Down"
+}
+count = rep(0, nrow(weekly))
+for(i in 1:nrow(weekly)){
+  log3 = glm(Direction ~ Lag1 + Lag2, data = weekly[-i, ], family = "binomial")
+  is_up = predict.glm(log3, weekly[i,], type = "response") > 0.5
+  is_true_up = weekly[i, 9] == "Up"
+  if (is_up != is_true_up)
+    count[i] = 1
+}
+1 - (sum(count) / length(count))
+# 490 prediction errors out of 1089, for an accuracy rate of 55% #
+# e.)
+sum(count) / length(count)
+# Average error rate of 45% #
